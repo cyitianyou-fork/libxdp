@@ -1,7 +1,6 @@
 package de.egore911.xdp.util;
 
-import junit.framework.Assert;
-
+import org.junit.Assert;
 import org.junit.Test;
 
 public class CalculationUtilTest {
