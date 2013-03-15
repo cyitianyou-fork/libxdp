@@ -11,7 +11,30 @@
 	<properties>
 		<jdk.version>1.7</jdk.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<jacoco.plugin.version>0.6.2.201302030002</jacoco.plugin.version>
+		<findbugs.plugin.version>2.5.2</findbugs.plugin.version>
+		<pmd.plugin.version>3.0</pmd.plugin.version>
+		<jxr.plugin.version>2.3</jxr.plugin.version>
+		<javadoc.plugin.version>2.9</javadoc.plugin.version>
 	</properties>
+
+	<prerequisites>
+		<maven>3.0.0</maven>
+	</prerequisites>
+
+	<scm>
+		<developerConnection>scm:git:ssh://git@github.com/egore/libxdp</developerConnection>
+		<url>http://github.com/egore/libxdp</url>
+	</scm>
+
+	<licenses>
+		<license>
+			<name>The MIT License</name>
+			<url>http://opensource.org/licenses/MIT</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
 
 	<dependencies>
 		<dependency>
@@ -36,12 +59,86 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.5.1</version>
+				<version>3.0</version>
 				<configuration>
 					<source>${jdk.version}</source>
 					<target>${jdk.version}</target>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.4</version>
+				<configuration>
+					<archive>
+						<manifest>
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
+
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>${jacoco.plugin.version}</version>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>findbugs-maven-plugin</artifactId>
+				<version>${findbugs.plugin.version}</version>
+				<configuration>
+					<findbugsXmlOutput>true</findbugsXmlOutput>
+					<findbugsXmlWithMessages>true</findbugsXmlWithMessages>
+					<xmlOutput>true</xmlOutput>
+					<effort>Max</effort>
+					<threshold>Low</threshold>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-pmd-plugin</artifactId>
+				<version>${pmd.plugin.version}</version>
+				<configuration>
+					<linkXref>true</linkXref>
+					<sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>
+					<targetJdk>${jdk.version}</targetJdk>
+					<rulesets>
+						<!-- Default -->
+						<ruleset>/rulesets/java/basic.xml</ruleset>
+						<ruleset>/rulesets/java/unusedcode.xml</ruleset>
+						<ruleset>/rulesets/java/imports.xml</ruleset>
+						<!-- Other stuff -->
+						<ruleset>/rulesets/jsp/basic.xml</ruleset>
+						<ruleset>/rulesets/jsp/basic-jsf.xml</ruleset>
+						<ruleset>/rulesets/java/typeresolution.xml</ruleset>
+						<ruleset>/rulesets/java/j2ee.xml</ruleset>
+					</rulesets>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jxr-plugin</artifactId>
+				<version>${jxr.plugin.version}</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>${javadoc.plugin.version}</version>
+				<configuration>
+					<failOnError>false</failOnError>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>2.6</version>
+			</plugin>
+		</plugins>
+	</reporting>
+
 </project>
